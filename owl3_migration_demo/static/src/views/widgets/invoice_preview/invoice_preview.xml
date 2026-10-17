@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t t-name="owl3_migration_demo.InvoicePreview">
+    <!-- En Owl 2 los métodos se invocan con `this.` dentro de las arrows de los
+         handlers (`() => this.openPreview()`): una llamada "suelta" pierde el this. -->
+    <button t-on-click="() => this.openPreview()" class="btn btn-link">
+        <i class="fa fa-eye" />
+        Ver factura
+    </button>
+    <PreviewModal
+        t-if="state.show"
+        title="state.move ? state.move.name : ''"
+        onClose="() => this.closePreview()">
+        <p>
+            Cliente:
+            <t t-esc="state.move.partner_id[1] || ''" />
+        </p>
+        <p>
+            Total:
+            <t t-esc="state.move.amount_total || ''" />
+        </p>
+        <p class="text-muted">
+            <t t-esc="state.helpText" />
+        </p>
+    </PreviewModal>
+</t>

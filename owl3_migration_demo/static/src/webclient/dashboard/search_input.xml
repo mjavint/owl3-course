@@ -1,0 +1,10 @@
+<t t-name="owl3_migration_demo.SearchInput">
+    <!-- Input "controlado": el valor viene del padre y cada tecla sale por onInput. -->
+    <div class="o_search_input input-group mb-2">
+        <input class="form-control" type="text" t-ref="input"
+               t-att-placeholder="props.placeholder || 'Buscar pedido...'"
+               t-att-value="props.value || ''"
+               t-on-input="onInput"/>
+        <button class="btn btn-outline-secondary" t-on-click="clear">Limpiar</button>
+    </div>
+</t>

@@ -1,0 +1,39 @@
+<t t-name="owl3_migration_demo.SaleDashboard">
+    <div class="o_owl3_dashboard">
+        <DashboardHeader title="'Pedidos de venta'" onNewOrder.bind="openNewOrder"/>
+
+        <SearchInput value="state.searchText" onInput.bind="onSearch"/>
+
+        <div class="o_dashboard_cards">
+            <div class="o_dashboard_card o_dashboard_card_orders">
+                <div class="o_card_icon"><i class="fa fa-shopping-cart"/></div>
+                <div class="o_card_body">
+                    <div class="title">Pedidos</div>
+                    <div class="value"><t t-esc="count"/></div>
+                    <div class="hint">no cancelados</div>
+                </div>
+            </div>
+            <div class="o_dashboard_card o_dashboard_card_total">
+                <div class="o_card_icon"><i class="fa fa-money"/></div>
+                <div class="o_card_body">
+                    <div class="title">Total</div>
+                    <div class="value"><t t-esc="totalFormatted"/></div>
+                    <div class="hint">importe acumulado</div>
+                </div>
+            </div>
+            <div class="o_dashboard_card o_dashboard_card_avg">
+                <div class="o_card_icon"><i class="fa fa-calculator"/></div>
+                <div class="o_card_body">
+                    <div class="title">Promedio</div>
+                    <div class="value"><t t-esc="avgFormatted"/></div>
+                    <div class="hint">por pedido</div>
+                </div>
+            </div>
+        </div>
+
+        <DashboardChart title="'Pedidos por estado'" series="chartSeries"/>
+
+        <DashboardList orders="filteredOrders" onSelect.bind="openOrder"/>
+        <DashboardFooter total="state.total"/>
+    </div>
+</t>

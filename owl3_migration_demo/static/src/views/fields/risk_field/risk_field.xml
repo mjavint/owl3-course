@@ -1,0 +1,5 @@
+<t t-name="owl3_migration_demo.RiskField">
+    <span t-att-class="'badge o_owl3_risk ' + className">
+        <t t-esc="label"/>
+    </span>
+</t>

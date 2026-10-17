@@ -1,0 +1,2 @@
+Addon de demo para el curso de migración Owl 2 → Owl 3. Versión ANTES (Odoo 19 / Owl 2).
+Contiene ejemplos de sale, purchase y account. Cargado con loadFile en la versión antes.

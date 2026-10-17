@@ -1,0 +1,12 @@
+<t t-name="owl3_migration_demo.PreviewModal">
+    <!-- Directiva t-portal de Owl 2: el contenido se teletransporta a <body>. -->
+    <div class="o_invoice_preview" t-portal="'body'">
+        <h4><t t-esc="props.title"/></h4>
+        <div class="o_invoice_preview_body">
+            <t t-slot="default"/>
+        </div>
+        <button class="btn btn-secondary" t-on-click="props.onClose">
+            Cerrar
+        </button>
+    </div>
+</t>

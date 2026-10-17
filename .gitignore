@@ -1,0 +1,23 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+odoo
+enterprise
+dbs
+ocli*
+resources
+uv.lock
+.env
+pruebas
+
+# Macos, Windows, Linux
+.DS_Store
+Thumbs.db
+desktop.ini

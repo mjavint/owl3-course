@@ -1,0 +1,9 @@
+<t t-name="owl3_migration_demo.ConfirmApprovalDialog">
+    <Dialog title="'Confirmar aprobación'">
+        <p>¿Aprobar el pedido <t t-esc="props.orderName || ''"/>?</p>
+        <t t-set-slot="footer">
+            <button class="btn btn-secondary" t-on-click="onCancel">Cancelar</button>
+            <button class="btn btn-primary" t-on-click="onConfirm">Aprobar</button>
+        </t>
+    </Dialog>
+</t>

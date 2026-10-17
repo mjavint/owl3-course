@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista formulario de facturas: añade el widget de riesgo de cobro y el preview de factura. -->
+    <record id="view_account_move_form_owl3_demo" model="ir.ui.view">
+        <field name="name">account.move.form.owl3.demo</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Field widget "owl3_risk" (registrado en registry.category("fields")). -->
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="owl3_risk_level" widget="owl3_risk" readonly="1"/>
+            </xpath>
+            <!-- View widget "owl3_invoice_preview" (registrado en registry.category("view_widgets")). -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <widget name="owl3_invoice_preview"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

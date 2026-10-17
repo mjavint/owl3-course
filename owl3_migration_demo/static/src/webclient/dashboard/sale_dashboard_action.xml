@@ -1,0 +1,4 @@
+<t t-name="owl3_migration_demo.SaleDashboardAction">
+    <!-- Composición: la acción solo envuelve el dashboard presentacional. -->
+    <SaleDashboard onSelect.bind="openOrder" onNewOrder.bind="openNewOrder"/>
+</t>
