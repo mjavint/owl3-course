@@ -5,7 +5,6 @@ import {
   useExternalListener,
   useState,
   loadFile,
-  onWillStart,
 } from '@odoo/owl';
 import { useService } from '@web/core/utils/hooks';
 import { registry } from '@web/core/registry';
@@ -17,7 +16,7 @@ import { PreviewModal } from './preview_modal';
  *
  * - `useState` con `helpText` dentro: si se asigna a una propiedad plana en
  *   `onMounted` la plantilla no se vuelve a pintar (bug clásico).
- * - `onKeydown` como campo arrow para conservar `this` en el listener.
+ * - `onKeydown` se envuelve en una arrow para conservar `this` en el listener.
  * - La factura se carga a partir de `record.resId`, no de un id fijo.
  */
 export class InvoicePreview extends Component {
@@ -31,15 +30,6 @@ export class InvoicePreview extends Component {
     this.orm = useService('orm');
     this.state = useState({ show: false, move: null, helpText: '' });
 
-    onWillStart(async () => {
-      const [move] = await this.orm.read(
-        'account.move',
-        [this.props.record?.resId],
-        ['name', 'partner_id', 'amount_total']
-      );
-      this.state.move = move;
-    });
-
     useExternalListener(window, 'keydown', (ev) => this.onKeydown(ev));
 
     onMounted(async () => {
@@ -47,7 +37,17 @@ export class InvoicePreview extends Component {
     });
   }
 
-  openPreview() {
+  async openPreview() {
+    const moveId = this.props.record?.resId;
+    if (!moveId) {
+      return;
+    }
+    const [move] = await this.orm.read(
+      'account.move',
+      [moveId],
+      ['name', 'partner_id', 'amount_total']
+    );
+    this.state.move = move;
     this.state.show = true;
   }
 

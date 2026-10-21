@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.BudgetButton">
-    <button class="btn btn-secondary" t-on-click="onClick">
-        Tope actual: <t t-esc="budgetService.budget"/>
+    <button t-on-click="onClick" class="btn btn-secondary">
+        Tope actual:
+        <t t-esc="budgetService.budget" />
     </button>
 </t>

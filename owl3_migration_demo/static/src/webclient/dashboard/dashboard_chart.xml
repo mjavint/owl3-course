@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.DashboardChart">
     <div class="o_dashboard_chart">
-        <h5 class="o_dashboard_chart_title" t-if="props.title"><t t-esc="props.title"/></h5>
-
+        <h5 t-if="props.title" class="o_dashboard_chart_title">
+            <t t-esc="props.title" />
+        </h5>
         <div class="o_chart_canvas">
-            <canvas t-ref="canvas"/>
-            <div class="o_chart_empty" t-if="!total">Sin datos todavía.</div>
+            <canvas t-ref="canvas" />
+            <div t-if="!total" class="o_chart_empty">Sin datos todavía.</div>
         </div>
     </div>
 </t>

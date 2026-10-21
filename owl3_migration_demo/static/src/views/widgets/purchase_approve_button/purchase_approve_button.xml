@@ -1,8 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.PurchaseApproveButton">
     <!-- En QWeb se escribe `and`: Owl lo traduce a `&&`. Un `&` literal rompería el XML. -->
-    <button t-if="props.record and props.record.data and props.record.data.owl3_requires_approval"
-            class="btn btn-primary"
-            t-on-click="() => this.onApprove()">
-        Aprobar pedido
-    </button>
+    <button
+        t-if="props.record and props.record.data and props.record.data.owl3_requires_approval"
+        t-on-click="() => this.onApprove()"
+        class="btn btn-primary">Aprobar pedido</button>
 </t>
