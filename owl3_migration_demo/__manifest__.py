@@ -1,6 +1,6 @@
 {
     "name": "Owl 3 Migration Demo (Odoo 19 / Owl 2)",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Technical",
     "summary": "Addon demo del curso 'Migración OWL 2 → OWL 3'. Versión ANTES (Odoo 19).",
     "description": """

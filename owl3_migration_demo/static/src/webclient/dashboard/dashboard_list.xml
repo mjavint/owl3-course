@@ -14,7 +14,7 @@
                 <tbody>
                     <t t-foreach="props.orders || []" t-as="order" t-key="order.id">
                         <tr
-                            t-on-click="() => props.onSelect && props.onSelect(order.id)"
+                            t-on-click="() => props.onSelect(order.id)"
                             class="cursor-pointer">
                             <td>
                                 <t t-esc="order_index + 1" />
@@ -23,7 +23,7 @@
                                 <t t-esc="order.name" />
                             </td>
                             <td>
-                                <t t-esc="order.partner_id && order.partner_id[1] ? order.partner_id[1] : ''" />
+                                <t t-esc="order.partner_id[1] ? order.partner_id[1] : ''" />
                             </td>
                             <td class="text-end">
                                 <t t-esc="order.amount_total || 0.0" />
