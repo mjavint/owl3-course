@@ -21,6 +21,7 @@ export class PurchaseApproveButton extends Component {
         this.orm = useService("orm");
         this.dialog = useService("dialog");
         this.notification = useService("notification");
+        this.budget = useService("purchase_budget");
     }
 
     onApprove() {
@@ -36,6 +37,13 @@ export class PurchaseApproveButton extends Component {
         const id = this.props.record && this.props.record.resId;
         if (!id) {
             this.notification.add("No se pudo determinar el pedido a aprobar.", { type: "warning" });
+            return;
+        }
+        // El tope de presupuesto es un servicio compartido: si el pedido lo
+        // supera, se avisa y no se aprueba.
+        const total = (this.props.record.data && this.props.record.data.amount_total) || 0;
+        const allowed = await this.budget.assertWithinBudget(total);
+        if (!allowed) {
             return;
         }
         await this.orm.call("purchase.order", "button_approve", [id]);

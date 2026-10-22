@@ -9,8 +9,8 @@ import { Component } from '@odoo/owl';
 export class PreviewModal extends Component {
   static template = 'owl3_migration_demo.PreviewModal';
 
-  // Si el componente declara props, debe declarar también `slots` (en modo
-  // debug Owl valida los props y un `slots` no declarado da error).
+  // Este modal recibe el slot por defecto: lo declaramos para documentar
+  // el contrato, igual que el resto de props.
   static props = {
     title: String,
     onClose: { type: Function, optional: true },

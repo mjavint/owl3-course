@@ -7,8 +7,8 @@ import { registry } from "@web/core/registry";
  * bus a mano — justo el trabajo que en Owl 3 desaparece (señal).
  */
 export const purchaseBudgetService = {
-    dependencies: ["orm", "notification"],
-    start(env, { orm, notification }) {
+    dependencies: ["notification"],
+    start(env, { notification }) {
         let budget = 5000;
 
         return {

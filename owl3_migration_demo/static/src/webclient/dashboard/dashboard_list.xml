@@ -15,11 +15,11 @@
                         <tr class="cursor-pointer" t-on-click="() => props.onSelect &amp;&amp; props.onSelect(order.id)">
                             <td><t t-esc="order_index + 1"/></td>
                             <td><t t-esc="order.name"/></td>
-                            <td><t t-esc="order.partner_id &amp;&amp; order.partner_id[1] ? order.partner_id[1] : ''"/></td>
+                            <td><t t-esc="order.partner_id[1] ? order.partner_id[1] : ''"/></td>
                             <td class="text-end"><t t-esc="order.amount_total || 0.0"/></td>
                         </tr>
                     </t>
-                    <tr t-if="!props.orders || !props.orders.length">
+                    <tr t-if="!props.orders.length">
                         <td colspan="4" class="text-center text-muted py-3">Sin pedidos.</td>
                     </tr>
                 </tbody>

@@ -1,5 +1,6 @@
 /** @odoo-module **/
 import { Component } from "@odoo/owl";
+import { registry } from "@web/core/registry";
 import { useBus, useService } from "@web/core/utils/hooks";
 
 /**
@@ -21,3 +22,6 @@ export class BudgetButton extends Component {
         this.budgetService.setBudget(this.budgetService.budget + 1000);
     }
 }
+
+// Se monta en la cabecera del formulario de compras (ver purchase_order_views.xml).
+registry.category("view_widgets").add("budget_button", { component: BudgetButton });

@@ -3,63 +3,13 @@ import { Component, onWillStart, onWillUnmount, useEffect, useRef } from "@odoo/
 import { loadBundle } from "@web/core/assets";
 import { getColor, lightenColor } from "@web/core/colors/colors";
 
-// Mismos valores que `GraphRenderer` en modo claro (Odoo real lee la cookie
-// `color_scheme` para alternar claro y oscuro).
-const GRID_COLOR = "rgba(0, 0, 0, .1)";
 const LABEL_COLOR = "#111827";
-
-/**
- * Plugin estándar de las gráficas de línea del core (ver `GraphRenderer`):
- * pinta la rejilla del eje Y ENCIMA de la línea y marca ambos ejes.
- */
-const gridOnTop = {
-    id: "gridOnTop",
-    afterDraw: (chart) => {
-        const ctx = chart.ctx;
-        const { top, right, bottom, left } = chart.chartArea;
-        ctx.save();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = GRID_COLOR;
-        chart.scales.y.ticks.forEach((value, index) => {
-            const y = chart.scales.y.getPixelForTick(index);
-            ctx.beginPath();
-            ctx.moveTo(left, y);
-            ctx.lineTo(right, y);
-            ctx.moveTo(left - 8, y);
-            ctx.lineTo(left, y);
-            ctx.stroke();
-        });
-        chart.scales.x.ticks.forEach((value, index) => {
-            const x = chart.scales.x.getPixelForTick(index);
-            ctx.beginPath();
-            ctx.moveTo(x, bottom);
-            ctx.lineTo(x, bottom + 8);
-            ctx.stroke();
-        });
-        // Guía vertical sobre el punto activo (el que sigue el ratón).
-        const points = chart.getDatasetMeta(0).data || [];
-        points.forEach((point, index) => {
-            if (point.active) {
-                const x = chart.scales.x.getPixelForTick(index);
-                ctx.setLineDash([3, 3]);
-                ctx.beginPath();
-                ctx.moveTo(x, top);
-                ctx.lineTo(x, bottom);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-        });
-        ctx.restore();
-    },
-};
 
 /**
  * Gráfico de líneas presentacional y reutilizable (Owl 2).
  *
- * Sigue el patrón estándar de Odoo (ver `GraphRenderer` en el core): carga el
- * bundle `web.chartjs_lib` bajo demanda y construye un `Chart` de Chart.js
- * sobre el canvas. No conoce el dominio: recibe la serie ya agregada
- * (`[{ label, value }]`).
+ * Carga Chart.js bajo demanda y pinta la serie sobre el canvas.
+ * No conoce el dominio: recibe la serie ya agregada (`[{ label, value }]`).
  */
 export class DashboardChart extends Component {
     static template = "owl3_migration_demo.DashboardChart";
@@ -138,7 +88,6 @@ export class DashboardChart extends Component {
                     tooltip: { mode: "index", intersect: false, position: "average" },
                 },
             },
-            plugins: [gridOnTop],
         };
     }
 
