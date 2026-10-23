@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import { Component, onWillStart, useState } from '@odoo/owl';
+import { Component, onWillStart, signal, computed } from '@odoo/owl';
 import { rpc } from '@web/core/network/rpc';
 import { useService } from '@web/core/utils/hooks';
 import { DashboardHeader } from './dashboard_header';
@@ -32,10 +32,12 @@ export class SaleDashboard extends Component {
     onNewOrder: { type: Function, optional: true },
   };
 
+  orders = signal.Array([]);
+  total = signal(0);
+  searchText = signal('');
+
   setup() {
     this.orm = useService('orm');
-
-    this.state = useState({ orders: [], total: 0, searchText: '' });
 
     onWillStart(async () => {
       await this.loadOrders();
@@ -49,11 +51,11 @@ export class SaleDashboard extends Component {
       ['name', 'partner_id', 'amount_total', 'currency_id', 'state'],
       { limit: 20, order: 'date_order desc' }
     );
-    this.state.orders = rows || [];
+    this.orders.set(rows || []);
     const stats = await rpc('/owl3_migration_demo/sale_stats', {
-      order_ids: (this.state.orders || []).map((o) => o.id),
+      order_ids: (this.orders() || []).map((o) => o.id),
     });
-    this.state.total = stats && stats.total ? stats.total : 0;
+    this.total.set(stats && stats.total ? stats.total : 0);
   }
 
   openOrder(orderId) {
@@ -69,17 +71,15 @@ export class SaleDashboard extends Component {
   }
 
   onSearch(text) {
-    this.state.searchText = text;
+    this.searchText.set(text);
   }
 
-  get count() {
-    return (this.state.orders || []).length;
-  }
+  count = computed(() => (this.orders() || []).length);
 
   // Filtro derivado del estado: al leer `state` en render, Owl repinta solo.
-  get filteredOrders() {
-    const text = (this.state.searchText || '').trim().toLowerCase();
-    const orders = this.state.orders || [];
+  filteredOrders = computed(() => {
+    const text = (this.searchText() || '').trim().toLowerCase();
+    const orders = this.orders();
     if (!text) {
       return orders;
     }
@@ -88,11 +88,9 @@ export class SaleDashboard extends Component {
         (o.name || '').toLowerCase().includes(text) ||
         ((o.partner_id && o.partner_id[1]) || '').toLowerCase().includes(text)
     );
-  }
+  });
 
-  get avg() {
-    return this.count ? this.state.total / this.count : 0;
-  }
+  avg = computed(() => (this.count() ? this.total() / this.count() : 0));
 
   formatCurrency(val) {
     const n = Number(val) || 0;
@@ -102,16 +100,12 @@ export class SaleDashboard extends Component {
     });
   }
 
-  get totalFormatted() {
-    return this.formatCurrency(this.state.total);
-  }
+  totalFormatted = computed(() => this.formatCurrency(this.total()));
 
-  get avgFormatted() {
-    return this.formatCurrency(this.avg);
-  }
+  avgFormatted = computed(() => this.formatCurrency(this.avg()));
 
-  get chartData() {
-    const orders = this.state.orders || [];
+  chartData = computed(() => {
+    const orders = this.orders();
     const buckets = { draft: 0, sent: 0, sale: 0, other: 0 };
     for (const o of orders) {
       const st = (o.state || '').toLowerCase();
@@ -121,16 +115,16 @@ export class SaleDashboard extends Component {
       else buckets.other += 1;
     }
     return buckets;
-  }
+  });
 
   // El dashboard conoce los estados de `sale.order`; el gráfico, no.
-  get chartSeries() {
-    const data = this.chartData;
+  chartSeries = computed(() => {
+    const data = this.chartData();
     return [
       { label: 'Borrador', value: data.draft },
       { label: 'Enviado', value: data.sent },
       { label: 'Pedido', value: data.sale },
       { label: 'Otros', value: data.other },
     ];
-  }
+  });
 }
