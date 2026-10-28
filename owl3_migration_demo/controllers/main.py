@@ -6,8 +6,8 @@ class Owl3MigrationDemoController(http.Controller):
     """Endpoints de demo.
 
     Ojo: el tipo de ruta NO cambia entre Odoo 19 y 20: sigue siendo `type="jsonrpc"`.
-    Lo único que cambia en el cliente es CÓMO se llama (servicio `rpc` en Owl 2;
-    función `rpc` importada de `@web/core/network/rpc` en Owl 3).
+    En el cliente, `rpc` se importa de `@web/core/network/rpc` en AMBAS versiones;
+    lo que cambia en Owl 3 es el resto del ecosistema (servicios → plugins).
     """
 
     @http.route(

@@ -8,7 +8,7 @@
     </button>
     <PreviewModal
         t-if="state.show"
-        title="state.move ? state.move.name : ''"
+        title="state.move.name"
         onClose="() => this.closePreview()">
         <p>
             Cliente:

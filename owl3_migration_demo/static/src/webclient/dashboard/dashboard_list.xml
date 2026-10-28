@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.DashboardList">
     <div class="o_dashboard_table">
-        <div class="table-responsive" style="max-height: 320px; overflow-y: auto;">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table class="table table-striped table-hover align-middle mb-0">
                 <thead class="sticky-top bg-white">
                     <tr>
@@ -12,14 +13,24 @@
                 </thead>
                 <tbody>
                     <t t-foreach="props.orders || []" t-as="order" t-key="order.id">
-                        <tr class="cursor-pointer" t-on-click="() => props.onSelect &amp;&amp; props.onSelect(order.id)">
-                            <td><t t-esc="order_index + 1"/></td>
-                            <td><t t-esc="order.name"/></td>
-                            <td><t t-esc="order.partner_id &amp;&amp; order.partner_id[1] ? order.partner_id[1] : ''"/></td>
-                            <td class="text-end"><t t-esc="order.amount_total || 0.0"/></td>
+                        <tr
+                            t-on-click="() => props.onSelect(order.id)"
+                            class="cursor-pointer">
+                            <td>
+                                <t t-esc="order_index + 1" />
+                            </td>
+                            <td>
+                                <t t-esc="order.name" />
+                            </td>
+                            <td>
+                                <t t-esc="order.partner_id[1] ? order.partner_id[1] : ''" />
+                            </td>
+                            <td class="text-end">
+                                <t t-esc="order.amount_total || 0.0" />
+                            </td>
                         </tr>
                     </t>
-                    <tr t-if="!props.orders || !props.orders.length">
+                    <tr t-if="!props.orders.length">
                         <td colspan="4" class="text-center text-muted py-3">Sin pedidos.</td>
                     </tr>
                 </tbody>

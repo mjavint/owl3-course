@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.DashboardHeader">
     <div class="d-flex justify-content-between mb-2">
-        <h3 class="m-0"><t t-esc="props.title || ''"/></h3>
-        <button t-if="props.onNewOrder"
-                class="btn btn-primary"
-                t-on-click="() => props.onNewOrder()">
-            Nuevo presupuesto
-        </button>
+        <h3 class="m-0">
+            <t t-esc="props.title || ''" />
+        </h3>
+        <button
+            t-if="props.onNewOrder"
+            t-on-click="() => props.onNewOrder()"
+            class="btn btn-primary">Nuevo presupuesto</button>
     </div>
 </t>

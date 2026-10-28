@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.RiskField">
     <span t-att-class="'badge o_owl3_risk ' + className">
-        <t t-esc="label"/>
+        <t t-esc="label" />
     </span>
 </t>

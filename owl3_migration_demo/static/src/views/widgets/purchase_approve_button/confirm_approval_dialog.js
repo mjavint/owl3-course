@@ -1,6 +1,6 @@
 /** @odoo-module **/
-import { Component } from "@odoo/owl";
-import { Dialog } from "@web/core/dialog/dialog";
+import { Component } from '@odoo/owl';
+import { Dialog } from '@web/core/dialog/dialog';
 
 /**
  * Diálogo de confirmación (Owl 2), aislado para poder reutilizarlo.
@@ -10,22 +10,22 @@ import { Dialog } from "@web/core/dialog/dialog";
  * `props.x` (nunca como variable libre, que falla).
  */
 export class ConfirmApprovalDialog extends Component {
-    static template = "owl3_migration_demo.ConfirmApprovalDialog";
-    static components = { Dialog };
-    static props = ["close", "confirm", "orderName"];
+  static template = 'owl3_migration_demo.ConfirmApprovalDialog';
+  static components = { Dialog };
+  static props = ['close', 'confirm', 'orderName'];
 
-    onConfirm() {
-        if (this.props.confirm) {
-            this.props.confirm();
-        }
-        if (this.props.close) {
-            this.props.close();
-        }
+  onConfirm() {
+    if (this.props.confirm) {
+      this.props.confirm();
     }
+    if (this.props.close) {
+      this.props.close();
+    }
+  }
 
-    onCancel() {
-        if (this.props.close) {
-            this.props.close();
-        }
+  onCancel() {
+    if (this.props.close) {
+      this.props.close();
     }
+  }
 }

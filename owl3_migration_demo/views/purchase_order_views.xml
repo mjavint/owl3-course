@@ -13,6 +13,7 @@
             </xpath>
             <xpath expr="//header" position="inside">
                 <field name="owl3_requires_approval" invisible="1" />
+                <widget name="budget_button" />
                 <widget name="purchase_approve_button" />
             </xpath>
         </field>
