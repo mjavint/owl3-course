@@ -2,7 +2,6 @@
 <t t-name="owl3_migration_demo.SaleDashboard">
     <div class="o_owl3_dashboard">
         <DashboardHeader title="'Pedidos de venta'" onNewOrder.bind="openNewOrder" />
-        <SearchInput value="state.searchText" onInput.bind="onSearch" />
         <div class="o_dashboard_cards">
             <div class="o_dashboard_card o_dashboard_card_orders">
                 <div class="o_card_icon">
@@ -41,12 +40,15 @@
                 </div>
             </div>
         </div>
-        <div class="o_dashboard_main">
+        <div class="o_dashboard_content">
             <DashboardChart title="'Pedidos por estado'" series="chartSeries" />
-            <DashboardList orders="filteredOrders" onSelect.bind="openOrder" />
-        </div>
-        <div class="d-flex justify-content-end m-3">
-            <DashboardFooter total="state.total" />
+            <div class="o_dashboard_list_col">
+                <SearchInput value="state.searchText" onInput.bind="onSearch" />
+                <DashboardList orders="filteredOrders" onSelect.bind="openOrder" />
+                <div class="d-flex justify-content-end mt-3">
+                    <DashboardFooter total="state.total" />
+                </div>
+            </div>
         </div>
     </div>
 </t>

@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.DashboardFooter">
-    <strong>Total: <t t-esc="props.total"/></strong>
+    <strong>
+        Total:
+        <t t-esc="props.total" />
+    </strong>
 </t>
