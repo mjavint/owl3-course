@@ -1,5 +1,11 @@
 .o_owl3_dashboard { padding: 1rem; }
 
+.o_dashboard_main{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1rem;
+}
+
 .o_dashboard_cards {
   display: flex;
   flex-wrap: wrap;
