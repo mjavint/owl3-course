@@ -1,33 +1,64 @@
-/* ============ Layout principal ============ */
+// ============================================================
+// Variables
+// ============================================================
+$dashboard-padding:      1.5rem;
+$dashboard-gap:          1.5rem;
+$card-border:            #dee2e6;
+$card-radius:            .375rem;
+$card-shadow:            0 1px 2px rgba(0, 0, 0, .05);
+$text-muted:             #6c757d;
+$text-subtle:            #adb5bd;
+$scrollbar-thumb:        rgba(0, 0, 0, .2);
+$scrollbar-thumb-hover:  rgba(0, 0, 0, .35);
+
+// Colores de cada card: (borde superior, fondo del icono, color del icono)
+$card-variants: (
+    orders: (border: #0d6efd, bg: #e7f0ff, icon: #0d6efd),
+    total:  (border: #198754, bg: #e6f4ec, icon: #198754),
+    avg:    (border: #fd7e14, bg: #fff1e3, icon: #fd7e14),
+);
+
+// ============================================================
+// Mixin: grid auto-fit con min() escapado para SCSS
+// ============================================================
+@mixin grid-auto-fit($min-width, $gap: 1rem) {
+    display: grid;
+    // unquote() evita que Sass evalúe min() con unidades incompatibles
+    grid-template-columns: repeat(auto-fit, minmax(unquote("min(#{$min-width}, 100%)"), 1fr));
+    gap: $gap;
+    min-width: 0;
+}
+
+// ============================================================
+// Layout principal
+// ============================================================
 .o_owl3_dashboard {
     display: grid;
     grid-template-rows: auto auto minmax(0, 1fr);
-    gap: 1.5rem;
+    gap: $dashboard-gap;
     height: 100%;
     min-height: 100%;
     max-height: 100dvh;
-    padding: 1.5rem;
+    padding: $dashboard-padding;
     box-sizing: border-box;
     overflow: hidden;
 }
 
-/* ============ Cards ============ */
+// ============================================================
+// Cards container
+// ============================================================
 .o_dashboard_cards {
-    display: grid;
-    /* ✅ min() escapado para SCSS */
-    grid-template-columns: repeat(auto-fit, minmax(unquote("min(15rem, 100%)"), 1fr));
-    gap: 1rem;
-    min-width: 0;
+    @include grid-auto-fit(15rem);
 }
 
-/* ============ Zona con scroll ============ */
+// ============================================================
+// Zona con scroll
+// ============================================================
 .o_dashboard_content {
-    display: grid;
-    /* ✅ min() escapado para SCSS */
-    grid-template-columns: repeat(auto-fit, minmax(unquote("min(20rem, 100%)"), 1fr));
-    gap: 1rem;
+    @include grid-auto-fit(20rem);
     align-items: start;
 
+    // scroll
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
@@ -37,112 +68,152 @@
     padding: 0 0 1rem 0;
     scrollbar-gutter: stable;
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, .2) transparent;
+    scrollbar-color: $scrollbar-thumb transparent;
+
+    // Ningún hijo debe forzar anchos/altos
+    > * {
+        min-width: 0;
+        min-height: 0;
+    }
+
+    // Scrollbar fina (webkit)
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $scrollbar-thumb;
+        border-radius: 4px;
+
+        &:hover {
+            background: $scrollbar-thumb-hover;
+        }
+    }
 }
 
-.o_dashboard_content > * {
-    min-width: 0;
-    min-height: 0;
-}
-
-/* Columna derecha: search + list + footer */
+// ============================================================
+// Columna derecha: search + list + footer
+// ============================================================
 .o_dashboard_list_col {
     display: flex;
     flex-direction: column;
     gap: .75rem;
     min-width: 0;
     min-height: 0;
+
+    > * {
+        min-width: 0;
+    }
 }
 
-.o_dashboard_list_col > * {
-    min-width: 0;
-}
-
-/* Scrollbar fina (webkit) */
-.o_dashboard_content::-webkit-scrollbar { width: 8px; }
-.o_dashboard_content::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, .2);
-    border-radius: 4px;
-}
-.o_dashboard_content::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, .35);
-}
-
-/* ============ Card individual ============ */
+// ============================================================
+// Card individual
+// ============================================================
 .o_dashboard_card {
     display: flex;
     align-items: center;
     gap: .75rem;
     background: #fff;
-    border: 1px solid #dee2e6;
-    border-top: 3px solid #dee2e6;
-    border-radius: .375rem;
+    border: 1px solid $card-border;
+    border-top: 3px solid $card-border;
+    border-radius: $card-radius;
     padding: .75rem 1rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    box-shadow: $card-shadow;
     min-width: 0;
+
+    .o_card_icon {
+        width: 2.35rem;
+        height: 2.35rem;
+        border-radius: .5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        flex: 0 0 auto;
+    }
+
+    .title {
+        font-size: .72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: $text-muted;
+    }
+
+    .value {
+        font-size: 1.35rem;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    .hint {
+        font-size: .72rem;
+        color: $text-subtle;
+    }
+
+    // Variantes generadas desde el mapa
+    @each $name, $style in $card-variants {
+        &_#{$name} {
+            border-top-color: map-get($style, border);
+
+            .o_card_icon {
+                background: map-get($style, bg);
+                color: map-get($style, icon);
+            }
+        }
+    }
 }
 
-.o_dashboard_card .o_card_icon {
-    width: 2.35rem;
-    height: 2.35rem;
-    border-radius: .5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.05rem;
-    flex: 0 0 auto;
-}
-
-.o_dashboard_card .title {
-    font-size: .72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    color: #6c757d;
-}
-
-.o_dashboard_card .value { font-size: 1.35rem; font-weight: 600; line-height: 1.25; }
-.o_dashboard_card .hint  { font-size: .72rem; color: #adb5bd; }
-
-.o_dashboard_card_orders { border-top-color: #0d6efd; }
-.o_dashboard_card_orders .o_card_icon { background: #e7f0ff; color: #0d6efd; }
-.o_dashboard_card_total  { border-top-color: #198754; }
-.o_dashboard_card_total  .o_card_icon { background: #e6f4ec; color: #198754; }
-.o_dashboard_card_avg    { border-top-color: #fd7e14; }
-.o_dashboard_card_avg    .o_card_icon { background: #fff1e3; color: #fd7e14; }
-
-/* ============ Chart ============ */
+// ============================================================
+// Chart
+// ============================================================
 .o_dashboard_chart {
     background: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: .375rem;
+    border: 1px solid $card-border;
+    border-radius: $card-radius;
     padding: .9rem 1rem 1rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    box-shadow: $card-shadow;
     min-width: 0;
 }
 
-.o_dashboard_chart_title { font-size: .95rem; font-weight: 600; margin: 0 0 .75rem; }
-.o_chart_canvas { position: relative; height: 260px; }
+.o_dashboard_chart_title {
+    font-size: .95rem;
+    font-weight: 600;
+    margin: 0 0 .75rem;
+}
+
+.o_chart_canvas {
+    position: relative;
+    height: 260px;
+}
+
 .o_chart_empty {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: $text-subtle;
     font-size: .85rem;
 }
 
-/* ============ Modal ============ */
+// ============================================================
+// Modal
+// ============================================================
 .o_invoice_preview {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
     padding: 1rem;
     z-index: 1000;
 }
 
-.cursor-pointer { cursor: pointer; }
+// ============================================================
+// Utilidades
+// ============================================================
+.cursor-pointer {
+    cursor: pointer;
+}
