@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.BudgetButton">
-    <button t-on-click="onClick" class="btn btn-secondary">
-        Tope actual:
-        <t t-esc="budgetService.budget" />
+    <button
+        t-if="this.isEditable"
+        type="button"
+        t-on-click="onClick"
+        class="btn btn-secondary"
+        title="Ajustar el tope global de compras">
+        <i class="fa fa-pencil me-1" aria-hidden="true" />
+        Tope de presupuesto:
+        <t t-esc="this.displayBudget" />
     </button>
+    <span
+        t-else=""
+        class="badge text-bg-secondary"
+        title="Solo un responsable de compras puede ajustar el tope">
+        Tope de presupuesto:
+        <t t-esc="this.displayBudget" />
+    </span>
 </t>

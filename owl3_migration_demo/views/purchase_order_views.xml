@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vista formulario de compras: añade el campo de presupuesto y el botón de aprobación
-         (view widget "purchase_approve_button"). El botón decide pintarse o no en función
-         de `props.record.data.owl3_requires_approval`, presente en el arch. -->
+    <!-- El presupuesto es global (parámetro del sistema), no un campo del pedido.
+         El widget "budget_button" lo muestra y repone; el widget de aprobación
+         solo aparece cuando el total del pedido supera el presupuesto. -->
     <record id="view_purchase_order_form_owl3_demo" model="ir.ui.view">
         <field name="name">purchase.order.form.owl3.demo</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="owl3_budget_limit" readonly="0" />
-            </xpath>
             <xpath expr="//header" position="inside">
                 <field name="owl3_requires_approval" invisible="1" />
+                <field name="owl3_can_approve" invisible="1" />
+                <field name="owl3_can_manage_budget" invisible="1" />
+                <field name="owl3_total_company_currency" invisible="1" />
+                <field name="owl3_company_currency_id" invisible="1" />
                 <widget name="budget_button" />
                 <widget name="purchase_approve_button" />
+            </xpath>
+            <!-- Si el pedido supera el presupuesto se oculta "Confirmar pedido":
+                 el exceso se autoriza con "Aprobar el tope de presupuesto". -->
+            <xpath expr="//button[@name='button_confirm'][@id='draft_confirm']" position="attributes">
+                <attribute name="invisible">state != 'draft' or owl3_requires_approval</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_confirm'][@id='bid_confirm']" position="attributes">
+                <attribute name="invisible">state != 'sent' or owl3_requires_approval</attribute>
             </xpath>
         </field>
     </record>

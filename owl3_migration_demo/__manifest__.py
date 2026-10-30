@@ -1,7 +1,8 @@
 {
     "name": "Owl 3 Migration Demo (Odoo 19 / Owl 2)",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Technical",
+    "author": "Curso Owl 3",
     "summary": "Addon demo del curso 'Migración OWL 2 → OWL 3'. Versión ANTES (Odoo 19).",
     "description": """
 Addon de ejemplo para el curso de migración Owl 2 → Owl 3.
@@ -13,8 +14,10 @@ Muestra, sobre Sale, Purchase y Account:
   - client action (dashboard de ventas)
   - field widget (riesgo de cobro)
   - servicio propio (tope de presupuesto de compras)
+  - diálogo de ajuste del tope global (useState/useRef/t-model)
   - notificaciones y diálogos (aprobación de compras)
   - t-portal (vista previa de factura)
+  - pruebas backend del flujo de presupuesto
 """,
     "depends": ["sale", "purchase", "account"],
     "data": [

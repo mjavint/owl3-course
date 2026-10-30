@@ -35,7 +35,7 @@ export class RiskField extends Component {
 
 export const riskField = {
   component: RiskField,
-  displayName: 'Riesgo de cobro',
+  displayName: 'Risk Level',
   supportedTypes: ['selection'],
 };
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t t-name="owl3_migration_demo.BudgetDialog">
+    <Dialog title="'Ajustar tope de presupuesto'">
+        <p>
+            El tope es único para todos los pedidos y se expresa en la moneda
+            de la compañía. Al guardarlo, se actualiza para toda la compañía.
+        </p>
+        <div class="mb-3">
+            <label class="form-label" for="owl3_budget_input">Nuevo tope</label>
+            <input
+                id="owl3_budget_input"
+                t-ref="budgetInput"
+                t-model="state.value"
+                type="number"
+                min="0"
+                step="0.01"
+                class="form-control"
+                t-att-class="{ 'is-invalid': !this.isValid }"
+            />
+            <div t-if="!this.isValid" class="invalid-feedback">
+                Introduce un importe válido (0 o más).
+            </div>
+        </div>
+        <p class="text-muted mb-0">
+            Tope actual:
+            <t t-esc="this.formattedCurrentBudget" />
+        </p>
+        <t t-set-slot="footer">
+            <button type="button" t-on-click="onCancel" class="btn btn-secondary">Cancelar</button>
+            <button
+                type="button"
+                t-on-click="onConfirm"
+                t-att-disabled="!this.isValid"
+                class="btn btn-primary">Guardar tope</button>
+        </t>
+    </Dialog>
+</t>

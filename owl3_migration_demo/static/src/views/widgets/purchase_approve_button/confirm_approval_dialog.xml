@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <t t-name="owl3_migration_demo.ConfirmApprovalDialog">
-    <Dialog title="'Confirmar aprobación'">
+    <Dialog title="'Aprobar el tope de presupuesto'">
         <p>
-            ¿Aprobar el pedido
+            El pedido
             <t t-esc="props.orderName || ''" />
-            ?
+            supera el tope de presupuesto. Si se autoriza, el tope quedará por
+            debajo de cero.
+        </p>
+        <table class="table table-sm">
+            <tbody>
+                <tr>
+                    <th scope="row">Tope disponible</th>
+                    <td class="text-end">
+                        <t t-esc="this.format(props.available)" />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Total del pedido (moneda de la compañía)</th>
+                    <td class="text-end">
+                        <t t-esc="this.format(props.total)" />
+                    </td>
+                </tr>
+                <tr class="fw-bold">
+                    <th scope="row">Saldo resultante</th>
+                    <td class="text-end">
+                        <t t-esc="this.format(props.resulting)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p t-if="props.resulting &lt; 0" class="text-danger">
+            El exceso queda autorizado como deuda presupuestaria.
+        </p>
+        <p class="text-muted">
+            Si el pedido requiere doble validación, el descuento se aplicará
+            cuando lo apruebe un responsable.
         </p>
         <t t-set-slot="footer">
-            <button t-on-click="onCancel" class="btn btn-secondary">Cancelar</button>
-            <button t-on-click="onConfirm" class="btn btn-primary">Aprobar</button>
+            <button type="button" t-on-click="onCancel" class="btn btn-secondary">Cancelar</button>
+            <button type="button" t-on-click="onConfirm" class="btn btn-primary">
+                <t t-esc="props.confirmLabel || 'Aprobar'" />
+            </button>
         </t>
     </Dialog>
 </t>
